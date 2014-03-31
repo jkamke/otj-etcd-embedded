@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -25,16 +26,19 @@ import com.opentable.io.DeleteRecursively;
 public class EtcdServerRule extends ExternalResource
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(EtcdServerRule.class);
-    private static final String ETCD_PACKAGE_PATH = "/etcd-binary/etcd";
+    private static final String ETCD_PACKAGE_PATH_FMT = "/etcd-binary-%s/etcd";
     private static final String ETCD_LOCATION;
 
     static {
+        final String etcdPath = String.format(ETCD_PACKAGE_PATH_FMT, (System.getProperty("os.name") + "-" + System.getProperty("os.arch"))
+                .replaceAll(" ", "").toLowerCase(Locale.ROOT));
+
         Path etcdFile = null;
         try {
             etcdFile = Files.createTempFile("etcd", "bin");
-            try (InputStream etcd = EtcdServerRule.class.getResourceAsStream(ETCD_PACKAGE_PATH)) {
+            try (InputStream etcd = EtcdServerRule.class.getResourceAsStream(etcdPath)) {
                 if (etcd == null) {
-                    throw new IllegalStateException("Could not find " + ETCD_PACKAGE_PATH + " on classpath");
+                    throw new IllegalStateException("Could not find " + etcdPath + " on classpath");
                 }
                 Files.copy(etcd, etcdFile, StandardCopyOption.REPLACE_EXISTING);
                 Files.setPosixFilePermissions(etcdFile, PosixFilePermissions.fromString("r-x------"));

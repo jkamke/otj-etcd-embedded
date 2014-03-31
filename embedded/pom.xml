@@ -4,10 +4,17 @@
 
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.opentable.components</groupId>
-    <artifactId>otj-etcd-embedded-parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <groupId>com.opentable</groupId>
+    <artifactId>otj-parent</artifactId>
+    <version>2-SNAPSHOT</version>
   </parent>
+
+  <scm>
+    <connection>scm:git:git://github.com/opentable/otj-etcd-embedded.git</connection>
+    <developerConnection>scm:git:git@github.com:opentable/otj-etcd-embedded.git</developerConnection>
+    <url>http://github.com/opentable/otj-core</url>
+    <tag>HEAD</tag>
+  </scm>
 
   <artifactId>otj-etcd-embedded</artifactId>
   <name>otj-etcd-embedded</name>
@@ -18,8 +25,15 @@
     <dependency>
       <groupId>com.opentable.components</groupId>
       <artifactId>otj-etcd-binary</artifactId>
-      <version>${project.version}</version>
-      <classifier>${etcd.os}-${os.arch}</classifier>
+      <version>0.3-SNAPSHOT</version>
+      <classifier>macosx-x86_64</classifier>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.opentable.components</groupId>
+      <artifactId>otj-etcd-binary</artifactId>
+      <version>0.3-SNAPSHOT</version>
+      <classifier>linux-amd64</classifier>
       <scope>runtime</scope>
     </dependency>
 
