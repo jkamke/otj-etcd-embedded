@@ -16,9 +16,11 @@
     <tag>HEAD</tag>
   </scm>
 
+  <groupId>com.opentable.components</groupId>
   <artifactId>otj-etcd-embedded</artifactId>
   <name>otj-etcd-embedded</name>
   <packaging>jar</packaging>
+  <version>1.0.0-SNAPSHOT</version>
   <description>Embedded ETCD server test library</description>
 
   <dependencies>
