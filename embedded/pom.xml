@@ -12,7 +12,7 @@
   <scm>
     <connection>scm:git:git://github.com/opentable/otj-etcd-embedded.git</connection>
     <developerConnection>scm:git:git@github.com:opentable/otj-etcd-embedded.git</developerConnection>
-    <url>http://github.com/opentable/otj-core</url>
+    <url>http://github.com/opentable/otj-etcd-embedded</url>
     <tag>HEAD</tag>
   </scm>
 
