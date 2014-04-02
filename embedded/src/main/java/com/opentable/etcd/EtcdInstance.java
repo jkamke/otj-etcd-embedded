@@ -139,6 +139,10 @@ public class EtcdInstance implements Closeable
             return;
         }
 
+        if (!etcdServer.isAlive()) {
+            LOGGER.error("etcd server is already dead?!");
+        }
+
         etcdServer.destroy();
         try {
             if (!etcdServer.waitFor(10, TimeUnit.SECONDS)) {
