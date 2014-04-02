@@ -3,6 +3,7 @@ package com.opentable.etcd;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ProcessBuilder.Redirect;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.UnknownHostException;
@@ -116,7 +117,10 @@ public class EtcdInstance implements Closeable
             arguments.add(configuration.getDiscoveryUri());
         }
 
-        etcdServer = new ProcessBuilder(arguments).inheritIO().start();
+        etcdServer = new ProcessBuilder(arguments)
+                .redirectOutput(Redirect.INHERIT)
+                .redirectError(Redirect.INHERIT)
+                .start();
 
         try {
             Thread.sleep(200);
