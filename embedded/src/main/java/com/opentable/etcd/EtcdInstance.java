@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.concurrent.GuardedBy;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,10 +63,11 @@ public class EtcdInstance implements Closeable
     public EtcdInstance(EtcdConfiguration configuration)
     {
         this.configuration = configuration;
+        this.id = ObjectUtils.firstNonNull(configuration.getNodeName(), RandomStringUtils.randomAlphabetic(10));
     }
 
     private final EtcdConfiguration configuration;
-    private final String id = RandomStringUtils.randomAlphabetic(10);
+    private final String id;
 
     @GuardedBy("this")
     private Process etcdServer;

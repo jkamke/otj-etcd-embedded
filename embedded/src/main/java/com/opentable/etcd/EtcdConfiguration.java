@@ -4,6 +4,7 @@ import java.nio.file.Path;
 
 public class EtcdConfiguration
 {
+    private String nodeName;
     private Path dataDirectory;
     private boolean destroyNodeOnExit;
     private String discoveryUri;
@@ -11,6 +12,16 @@ public class EtcdConfiguration
     private int clientPort;
     private int peerPort;
     private boolean verbose;
+
+    public void setNodeName(String nodeName)
+    {
+        this.nodeName = nodeName;
+    }
+
+    public String getNodeName()
+    {
+        return nodeName;
+    }
 
     public EtcdConfiguration setDataDirectory(Path dataDirectory)
     {
