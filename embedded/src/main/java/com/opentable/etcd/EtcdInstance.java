@@ -119,6 +119,8 @@ public class EtcdInstance implements Closeable
             arguments.add(configuration.getDiscoveryUri());
         }
 
+        LOGGER.info("Launching etcd: {}", arguments);
+
         etcdServer = new ProcessBuilder(arguments)
                 .redirectOutput(Redirect.INHERIT)
                 .redirectError(Redirect.INHERIT)
