@@ -108,7 +108,8 @@ public class EtcdInstance implements Closeable
                 "-data-dir", configuration.getDataDirectory().toString(),
                 "-name", id,
                 "-addr", clientAddr,
-                "-peer-addr", peerAddr));
+                "-peer-addr", peerAddr,
+                "-peer-bind-addr", "0.0.0.0:" + peerPort));
 
         if (configuration.isVerbose()) {
             arguments.add("-v");
