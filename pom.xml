@@ -20,25 +20,10 @@
   <artifactId>otj-etcd-embedded</artifactId>
   <name>otj-etcd-embedded</name>
   <packaging>jar</packaging>
-  <version>1.1.2-SNAPSHOT</version>
+  <version>0.4.1-OT-1-SNAPSHOT</version>
   <description>Embedded ETCD server test library</description>
 
   <dependencies>
-    <dependency>
-      <groupId>com.opentable.components</groupId>
-      <artifactId>otj-etcd-binary</artifactId>
-      <version>0.3-1</version>
-      <classifier>macosx-x86_64</classifier>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.opentable.components</groupId>
-      <artifactId>otj-etcd-binary</artifactId>
-      <version>0.3-1</version>
-      <classifier>linux-amd64</classifier>
-      <scope>runtime</scope>
-    </dependency>
-
     <dependency>
       <groupId>com.opentable.components</groupId>
       <artifactId>otj-core</artifactId>

@@ -29,7 +29,7 @@ import com.opentable.io.DeleteRecursively;
 public class EtcdInstance implements Closeable
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(EtcdInstance.class);
-    private static final String ETCD_PACKAGE_PATH_FMT = "/etcd-binary-%s/etcd";
+    private static final String ETCD_PACKAGE_PATH_FMT = "/etcd/etcd-%s";
     private static final String ETCD_LOCATION;
 
     static {
