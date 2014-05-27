@@ -36,6 +36,8 @@ public class EtcdInstance implements Closeable
         final String etcdPath = String.format(ETCD_PACKAGE_PATH_FMT, (System.getProperty("os.name") + "-" + System.getProperty("os.arch"))
                 .replaceAll(" ", "").toLowerCase(Locale.ROOT));
 
+        final boolean isWindows = System.getProperty("os.name").toLowerCase().contains("windows");
+
         Path etcdFile = null;
         try {
             etcdFile = Files.createTempFile("etcd", "bin");
@@ -44,7 +46,9 @@ public class EtcdInstance implements Closeable
                     throw new IllegalStateException("Could not find " + etcdPath + " on classpath");
                 }
                 Files.copy(etcd, etcdFile, StandardCopyOption.REPLACE_EXISTING);
-                Files.setPosixFilePermissions(etcdFile, PosixFilePermissions.fromString("r-x------"));
+                if (!isWindows) {
+                    Files.setPosixFilePermissions(etcdFile, PosixFilePermissions.fromString("r-x------"));
+                }
             }
             etcdFile.toFile().deleteOnExit();
             ETCD_LOCATION = etcdFile.toString();
