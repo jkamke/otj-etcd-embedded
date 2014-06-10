@@ -20,7 +20,7 @@
   <artifactId>otj-etcd-embedded</artifactId>
   <name>otj-etcd-embedded</name>
   <packaging>jar</packaging>
-  <version>0.4.1-OT-3-SNAPSHOT</version>
+  <version>0.4.3-OT-1-SNAPSHOT</version>
   <description>Embedded ETCD server test library</description>
 
   <dependencies>
