@@ -10,9 +10,7 @@ import java.nio.charset.Charset;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.kitei.testing.lessio.AllowNetworkAccess;
 
-@AllowNetworkAccess(endpoints= {"127.0.0.1:*"})
 public class EtcdServerRuleTest
 {
     @Rule

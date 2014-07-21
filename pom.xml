@@ -46,11 +46,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.kitei.testing</groupId>
-      <artifactId>kitei-lessio</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <optional>true</optional>

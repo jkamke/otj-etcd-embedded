@@ -7,9 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.rules.ExternalResource;
-import org.kitei.testing.lessio.AllowAll;
 
-@AllowAll
 public class EtcdServerRule extends ExternalResource
 {
     private final EtcdInstance instance;
