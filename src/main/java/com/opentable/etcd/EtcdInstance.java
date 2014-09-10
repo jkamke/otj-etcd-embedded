@@ -24,6 +24,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import com.opentable.io.DeleteRecursively;
 
 public class EtcdInstance implements Closeable
@@ -92,6 +94,7 @@ public class EtcdInstance implements Closeable
         }
     }
 
+    @SuppressFBWarnings("SWL_SLEEP_WITH_LOCK_HELD")
     public synchronized void start() throws IOException
     {
         if (etcdServer != null) {
@@ -173,17 +176,17 @@ public class EtcdInstance implements Closeable
         }
     }
 
-    public int getClientPort()
+    public synchronized int getClientPort()
     {
         return clientPort;
     }
 
-    public int getPeerPort()
+    public synchronized int getPeerPort()
     {
         return peerPort;
     }
 
-    public boolean isRunning()
+    public synchronized boolean isRunning()
     {
         return etcdServer != null;
     }
