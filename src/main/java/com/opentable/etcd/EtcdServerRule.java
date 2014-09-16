@@ -64,6 +64,31 @@ public class EtcdServerRule extends ExternalResource
     protected synchronized void before() throws Throwable
     {
         instance.start();
+        waitForServerInit();
+    }
+
+    private void waitForServerInit() throws IOException {
+        final URL versionUrl = new URL(getConnectString() + "/version");
+        IOException exc = null;
+        for (int i = 0; i < 100; i++) {
+            try {
+                IOUtils.toString(versionUrl.openStream(), Charsets.UTF_8);
+                exc = null;
+                break;
+            } catch (IOException e) {
+                exc = e;
+            }
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException(e);
+            }
+        }
+
+        if (exc != null) {
+            throw exc;
+        }
     }
 
     @Override
