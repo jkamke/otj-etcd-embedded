@@ -45,9 +45,10 @@ public class EtcdConfiguration
         return destroyNodeOnExit;
     }
 
-    public void setDiscoveryUri(String discoveryUri)
+    public EtcdConfiguration setDiscoveryUri(String discoveryUri)
     {
         this.discoveryUri = discoveryUri;
+        return this;
     }
 
     public String getDiscoveryUri()
@@ -55,9 +56,10 @@ public class EtcdConfiguration
         return discoveryUri;
     }
 
-    public void setHostname(String hostname)
+    public EtcdConfiguration setHostname(String hostname)
     {
         this.hostname = hostname;
+        return this;
     }
 
     public String getHostname()
@@ -65,9 +67,10 @@ public class EtcdConfiguration
         return hostname;
     }
 
-    public void setClientPort(int clientPort)
+    public EtcdConfiguration setClientPort(int clientPort)
     {
         this.clientPort = clientPort;
+        return this;
     }
 
     public int getClientPort()
@@ -75,9 +78,10 @@ public class EtcdConfiguration
         return clientPort;
     }
 
-    public void setPeerPort(int peerPort)
+    public EtcdConfiguration setPeerPort(int peerPort)
     {
         this.peerPort = peerPort;
+        return this;
     }
 
     public int getPeerPort()

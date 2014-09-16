@@ -1,11 +1,16 @@
 package com.opentable.etcd;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.Charsets;
+import org.apache.commons.io.IOUtils;
 import org.junit.rules.ExternalResource;
 
 public class EtcdServerRule extends ExternalResource
@@ -19,6 +24,30 @@ public class EtcdServerRule extends ExternalResource
 
     public static EtcdServerRule singleNode()
     {
+        return makeNode(new EtcdConfiguration());
+    }
+
+    public static List<EtcdServerRule> cluster(int nNodes)
+    {
+        final String discoveryUrl = newDiscoveryUrl();
+        final List<EtcdServerRule> result = new ArrayList<>();
+        for (int i = 0; i < nNodes; i++) {
+            result.add(makeNode(new EtcdConfiguration().setDiscoveryUri(discoveryUrl)));
+        }
+        return result;
+    }
+
+    private static String newDiscoveryUrl()
+    {
+        try {
+            return IOUtils.toString(new URL("https://discovery.etcd.io/new"), Charsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static EtcdServerRule makeNode(EtcdConfiguration config)
+    {
         Path dir;
         try {
             dir = Files.createTempDirectory("etcd");
@@ -26,7 +55,6 @@ public class EtcdServerRule extends ExternalResource
             throw new AssertionError(e);
         }
 
-        final EtcdConfiguration config = new EtcdConfiguration();
         config.setDataDirectory(dir);
         config.setDestroyNodeOnExit(true);
         return new EtcdServerRule(new EtcdInstance(config));
