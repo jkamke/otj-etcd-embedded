@@ -5,8 +5,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.opentable</groupId>
-    <artifactId>otj-parent</artifactId>
-    <version>22</version>
+    <artifactId>otj-parent-oss</artifactId>
+    <version>23-SNAPSHOT</version>
   </parent>
 
   <scm>
@@ -23,11 +23,15 @@
   <version>0.4.6-OT-2-SNAPSHOT</version>
   <description>Embedded ETCD server test library</description>
 
+  <properties>
+    <ot.build.allow-guice>false</ot.build.allow-guice>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>com.opentable.components</groupId>
       <artifactId>otj-core</artifactId>
-      <version>1.1.0</version>
+      <version>1.2.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
