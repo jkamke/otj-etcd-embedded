@@ -125,4 +125,8 @@ public class EtcdServerRule extends ExternalResource
         result.put("ot.discovery.servers", getConnectString());
         return result;
     }
+
+    public EtcdInstance getInstance() {
+        return instance;
+    }
 }

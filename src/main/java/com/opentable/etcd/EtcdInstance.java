@@ -114,8 +114,12 @@ public class EtcdInstance implements Closeable
             throw new IllegalStateException("already started");
         }
 
-        clientPort = findPort(configuration.getClientPort());
-        peerPort = findPort(configuration.getPeerPort());
+        if (clientPort == 0) {
+            clientPort = findPort(configuration.getClientPort());
+        }
+        if (peerPort == 0) {
+            peerPort = findPort(configuration.getPeerPort());
+        }
 
         final String hostname = configuration.getHostname() != null ? configuration.getHostname() : findHostname();
 
@@ -160,6 +164,17 @@ public class EtcdInstance implements Closeable
     @Override
     public synchronized void close()
     {
+        stop();
+        try {
+            if (configuration.isDestroyNodeOnExit()) {
+                Files.walkFileTree(configuration.getDataDirectory(), DeleteRecursively.INSTANCE);
+            }
+        } catch (IOException e) {
+            LOGGER.warn("Failed to delete etcd data directoy", e);
+        }
+    }
+
+    public synchronized void stop() {
         if (etcdServer == null) {
             return;
         }
@@ -180,13 +195,6 @@ public class EtcdInstance implements Closeable
         final int exitValue = etcdServer.exitValue();
         etcdServer = null;
         LOGGER.info("etcd server terminated {}", exitValue == 0 || exitValue == 143 ? "normally" : "with code " + exitValue);
-        try {
-            if (configuration.isDestroyNodeOnExit()) {
-                Files.walkFileTree(configuration.getDataDirectory(), DeleteRecursively.INSTANCE);
-            }
-        } catch (IOException e) {
-            LOGGER.warn("Failed to delete etcd data directoy", e);
-        }
     }
 
     public synchronized int getClientPort()
