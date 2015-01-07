@@ -25,6 +25,7 @@ public class EtcdConfiguration
     private String hostname;
     private int clientPort;
     private int peerPort;
+    private Integer snapshotCount;
     private boolean verbose;
 
     public void setNodeName(String nodeName)
@@ -109,6 +110,15 @@ public class EtcdConfiguration
     public int getPeerPort()
     {
         return peerPort;
+    }
+
+    public EtcdConfiguration setSnapshotCount(Integer snapshotCount) {
+        this.snapshotCount = snapshotCount;
+        return this;
+    }
+
+    public Integer getSnapshotCount() {
+        return snapshotCount;
     }
 
     public EtcdConfiguration setVerbose(boolean verbose)

@@ -35,7 +35,12 @@ public class EtcdServerRule extends ExternalResource
 
     public static EtcdServerRule singleNode()
     {
-        return makeNode(new EtcdConfiguration().setDiscoveryUri(newDiscoveryUrl(1)));
+        return singleNode(new EtcdConfiguration());
+    }
+
+    public static EtcdServerRule singleNode(EtcdConfiguration config)
+    {
+        return makeNode(config.setDiscoveryUri(newDiscoveryUrl(1)));
     }
 
     private static String newDiscoveryUrl(int clusterSize)

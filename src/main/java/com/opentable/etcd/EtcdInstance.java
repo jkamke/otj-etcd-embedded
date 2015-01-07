@@ -131,6 +131,8 @@ public class EtcdInstance implements Closeable
                 ETCD_LOCATION,
                 "-data-dir", configuration.getDataDirectory().toString(),
                 "-name", id,
+                "-max-wals", "1",
+                "-max-snapshots", "1",
                 "-listen-client-urls", "http://0.0.0.0:" + clientPort,
                 "-advertise-client-urls", "http://" + clientAddr,
                 "-initial-advertise-peer-urls", "http://" + peerAddr,
@@ -148,6 +150,10 @@ public class EtcdInstance implements Closeable
         if (configuration.getDiscoveryUri() != null) {
             arguments.add("-discovery");
             arguments.add(configuration.getDiscoveryUri());
+        }
+
+        if (configuration.getSnapshotCount() != null) {
+            arguments.add("-snapshot-count=" + configuration.getSnapshotCount());
         }
 
         LOGGER.info("Launching etcd: {}", arguments);
