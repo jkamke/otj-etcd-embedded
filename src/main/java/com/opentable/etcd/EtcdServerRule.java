@@ -17,9 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.Charsets;
@@ -37,23 +35,13 @@ public class EtcdServerRule extends ExternalResource
 
     public static EtcdServerRule singleNode()
     {
-        return makeNode(new EtcdConfiguration());
+        return makeNode(new EtcdConfiguration().setDiscoveryUri(newDiscoveryUrl(1)));
     }
 
-    public static List<EtcdServerRule> cluster(int nNodes)
-    {
-        final String discoveryUrl = newDiscoveryUrl();
-        final List<EtcdServerRule> result = new ArrayList<>();
-        for (int i = 0; i < nNodes; i++) {
-            result.add(makeNode(new EtcdConfiguration().setDiscoveryUri(discoveryUrl)));
-        }
-        return result;
-    }
-
-    private static String newDiscoveryUrl()
+    private static String newDiscoveryUrl(int clusterSize)
     {
         try {
-            return IOUtils.toString(new URL("https://discovery.etcd.io/new"), Charsets.UTF_8);
+            return IOUtils.toString(new URL("https://discovery.etcd.io/new?size=" + clusterSize), Charsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

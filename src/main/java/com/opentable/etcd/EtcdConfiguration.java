@@ -21,6 +21,7 @@ public class EtcdConfiguration
     private Path dataDirectory;
     private boolean destroyNodeOnExit;
     private String discoveryUri;
+    private String initialCluster;
     private String hostname;
     private int clientPort;
     private int peerPort;
@@ -67,6 +68,14 @@ public class EtcdConfiguration
     public String getDiscoveryUri()
     {
         return discoveryUri;
+    }
+
+    public String getInitialCluster() {
+        return initialCluster;
+    }
+
+    public void setInitialCluster(String initialCluster) {
+        this.initialCluster = initialCluster;
     }
 
     public EtcdConfiguration setHostname(String hostname)

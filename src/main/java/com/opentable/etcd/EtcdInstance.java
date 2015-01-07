@@ -131,9 +131,15 @@ public class EtcdInstance implements Closeable
                 ETCD_LOCATION,
                 "-data-dir", configuration.getDataDirectory().toString(),
                 "-name", id,
-                "-addr", clientAddr,
-                "-peer-addr", peerAddr,
-                "-peer-bind-addr", "0.0.0.0:" + peerPort));
+                "-listen-client-urls", "http://0.0.0.0:" + clientPort,
+                "-advertise-client-urls", "http://" + clientAddr,
+                "-initial-advertise-peer-urls", "http://" + peerAddr,
+                "-listen-peer-urls", "http://0.0.0.0:" + peerPort));
+
+        if (configuration.getInitialCluster() != null) {
+            arguments.add("-initial-cluster");
+            arguments.add(configuration.getInitialCluster());
+        }
 
         if (configuration.isVerbose()) {
             arguments.add("-v");
