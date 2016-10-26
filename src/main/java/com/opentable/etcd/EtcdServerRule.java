@@ -15,12 +15,12 @@ package com.opentable.etcd;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.junit.rules.ExternalResource;
 
@@ -46,7 +46,7 @@ public class EtcdServerRule extends ExternalResource
     private static String newDiscoveryUrl(int clusterSize)
     {
         try {
-            return IOUtils.toString(new URL("https://discovery.etcd.io/new?size=" + clusterSize), Charsets.UTF_8);
+            return IOUtils.toString(new URL("https://discovery.etcd.io/new?size=" + clusterSize), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -78,7 +78,7 @@ public class EtcdServerRule extends ExternalResource
         IOException exc = null;
         for (int i = 0; i < 100; i++) {
             try {
-                IOUtils.toString(versionUrl.openStream(), Charsets.UTF_8);
+                IOUtils.toString(versionUrl.openStream(), StandardCharsets.UTF_8);
                 exc = null;
                 break;
             } catch (IOException e) {

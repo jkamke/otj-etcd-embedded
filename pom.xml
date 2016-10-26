@@ -19,7 +19,7 @@
   <parent>
     <groupId>com.opentable</groupId>
     <artifactId>otj-parent-oss</artifactId>
-    <version>23</version>
+    <version>64</version>
   </parent>
 
   <scm>
@@ -33,18 +33,14 @@
   <artifactId>otj-etcd-embedded</artifactId>
   <name>otj-etcd-embedded</name>
   <packaging>jar</packaging>
-  <version>2.0.0-RC1-OT-2-SNAPSHOT</version>
+  <version>3.0.13-OT-1-SNAPSHOT</version>
   <description>Embedded ETCD server test library</description>
-
-  <properties>
-    <ot.build.allow-guice>false</ot.build.allow-guice>
-  </properties>
 
   <dependencies>
     <dependency>
       <groupId>com.opentable.components</groupId>
       <artifactId>otj-core</artifactId>
-      <version>1.2.0</version>
+      <version>1.5.0</version>
     </dependency>
 
     <dependency>
@@ -55,10 +51,12 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
+      <version>3.5</version>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
+      <version>2.5</version>
     </dependency>
 
     <dependency>
@@ -69,6 +67,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <version>4.12</version>
       <optional>true</optional>
     </dependency>
 
