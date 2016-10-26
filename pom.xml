@@ -26,14 +26,14 @@
     <connection>scm:git:git://github.com/opentable/otj-etcd-embedded.git</connection>
     <developerConnection>scm:git:git@github.com:opentable/otj-etcd-embedded.git</developerConnection>
     <url>http://github.com/opentable/otj-etcd-embedded</url>
-    <tag>otj-etcd-embedded-3.0.13-OT-1</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <groupId>com.opentable.components</groupId>
   <artifactId>otj-etcd-embedded</artifactId>
   <name>otj-etcd-embedded</name>
   <packaging>jar</packaging>
-  <version>3.0.13-OT-1</version>
+  <version>3.0.13-OT-2-SNAPSHOT</version>
   <description>Embedded ETCD server test library</description>
 
   <build>
