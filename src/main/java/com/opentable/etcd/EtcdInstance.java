@@ -16,10 +16,14 @@ package com.opentable.etcd;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
 import java.lang.ProcessBuilder.Redirect;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.net.URL;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -127,33 +131,35 @@ public class EtcdInstance implements Closeable
         final String peerAddr = hostname + ':' + peerPort;
 
         final List<String> arguments = new ArrayList<>();
+        String peerUrl = "http://" + peerAddr;
         arguments.addAll(Arrays.asList(
                 ETCD_LOCATION,
-                "-data-dir", configuration.getDataDirectory().toString(),
-                "-name", id,
-                "-max-wals", "1",
-                "-max-snapshots", "1",
-                "-listen-client-urls", "http://0.0.0.0:" + clientPort,
-                "-advertise-client-urls", "http://" + clientAddr,
-                "-initial-advertise-peer-urls", "http://" + peerAddr,
-                "-listen-peer-urls", "http://0.0.0.0:" + peerPort));
-
-        if (configuration.getInitialCluster() != null) {
-            arguments.add("-initial-cluster");
-            arguments.add(configuration.getInitialCluster());
-        }
+                "--data-dir", configuration.getDataDirectory().toString(),
+                "--name", id,
+                "--max-wals", "1",
+                "--max-snapshots", "1",
+                "--listen-client-urls", "http://0.0.0.0:" + clientPort,
+                "--advertise-client-urls", "http://" + clientAddr,
+                "--initial-advertise-peer-urls", peerUrl,
+                "--listen-peer-urls", "http://0.0.0.0:" + peerPort));
 
         if (configuration.isVerbose()) {
             arguments.add("-v");
         }
 
-        if (configuration.getDiscoveryUri() != null) {
-            arguments.add("-discovery");
+        if (configuration.getInitialCluster() != null) {
+            arguments.add("--initial-cluster");
+            arguments.add(configuration.getInitialCluster());
+        } else if (configuration.getDiscoveryUri() != null) {
+            arguments.add("--discovery");
             arguments.add(configuration.getDiscoveryUri());
+        } else {
+            arguments.add("--initial-cluster");
+            arguments.add(id + "=" + peerUrl);
         }
 
         if (configuration.getSnapshotCount() != null) {
-            arguments.add("-snapshot-count=" + configuration.getSnapshotCount());
+            arguments.add("--snapshot-count=" + configuration.getSnapshotCount());
         }
 
         LOGGER.info("Launching etcd: {}", arguments);
@@ -163,14 +169,31 @@ public class EtcdInstance implements Closeable
                 .redirectError(Redirect.INHERIT)
                 .start();
 
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new RuntimeException(e);
+        long until = System.currentTimeMillis() + 10000;
+        while (true) {
+            try {
+                isAliveYet();
+                break;
+            } catch (IOException e) {
+                if (System.currentTimeMillis() >= until) {
+                    throw e;
+                }
+            }
         }
 
         LOGGER.info("etcd server launched: {}", etcdServer);
+    }
+
+    private void isAliveYet() throws IOException {
+        try (InputStream is = new URL("http://127.0.0.1:" + getClientPort() + "/version").openStream();
+             LineNumberReader r = new LineNumberReader(
+                        new InputStreamReader(is, StandardCharsets.UTF_8))) {
+            final String version = r.readLine();
+
+            if (version == null || !version.contains("etcdcluster")) {
+                throw new IOException("unexpected response '" + version + "'");
+            }
+        }
     }
 
     @Override
@@ -236,6 +259,6 @@ public class EtcdInstance implements Closeable
 
     private static String findHostname() throws UnknownHostException
     {
-        return InetAddress.getLocalHost().getHostName();
+        return InetAddress.getLocalHost().getHostAddress();
     }
 }

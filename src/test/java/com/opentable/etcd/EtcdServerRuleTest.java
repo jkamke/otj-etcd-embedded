@@ -36,7 +36,7 @@ public class EtcdServerRuleTest
             final String version = new LineNumberReader(
                     new InputStreamReader(is, Charset.forName("UTF-8"))).readLine();
 
-            assertTrue(version.startsWith("etcd "));
+            assertTrue(version.contains("etcdcluster"));
         }
     }
 }
