@@ -33,7 +33,7 @@
   <artifactId>otj-etcd-embedded</artifactId>
   <name>otj-etcd-embedded</name>
   <packaging>jar</packaging>
-  <version>3.0.13-OT-2-SNAPSHOT</version>
+  <version>3.3.1-OT-3-SNAPSHOT</version>
   <description>Embedded ETCD server test library</description>
 
   <build>

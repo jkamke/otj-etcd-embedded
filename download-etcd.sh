@@ -3,7 +3,7 @@
 
 shopt -s nullglob
 
-RELEASE=3.0.13
+RELEASE=3.3.1
 DEST=${1:-target/generated-resources/etcd}
 mkdir -p $DEST
 cd $DEST
